@@ -1,0 +1,27 @@
+meta {
+  name: FindProductByID
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{productURL}}/findbyid/{{firstProductId}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  : 
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  test("Response time is less than 200ms", function () {
+      expect(res.getResponseTime()).to.be.below(200);
+  });
+  
+  
+}

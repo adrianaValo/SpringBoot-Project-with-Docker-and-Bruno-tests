@@ -1,0 +1,24 @@
+meta {
+  name: ViewOrders
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{ordersURL}}/vieworder
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  
+  
+  test("Your test name", function () {
+      var jsonData = res.getBody();
+      expect(jsonData[0]).to.include("TV");
+  });
+}

@@ -1,0 +1,38 @@
+meta {
+  name: UpdateProductQty
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{productURL}}/updateqty
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+      "pid" : 5, 
+      "qty" : 14
+      
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body: eq Product qty updated successfully
+}
+
+tests {
+  test("Product qty updated successfully", function () {
+      expect(res.getBody()?.toString()).to.include("Product qty updated successfully");
+  });
+  
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+}

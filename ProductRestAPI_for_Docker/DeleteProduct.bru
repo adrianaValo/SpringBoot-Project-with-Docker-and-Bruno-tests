@@ -1,0 +1,25 @@
+meta {
+  name: DeleteProduct
+  type: http
+  seq: 8
+}
+
+delete {
+  url: {{productURL}}/delete/5
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  test("Status code is 200", function () {
+      expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Product deleted successfully", function () {
+      expect(res.getBody()?.toString()).to.include("Product deleted successfully");
+  });
+}
