@@ -1,0 +1,373 @@
+{
+  "name": "ProductRestAPI_for_Docker",
+  "version": "1",
+  "items": [
+    {
+      "type": "http",
+      "name": "FindProductByID",
+      "seq": 5,
+      "request": {
+        "url": "{{productURL}}/findbyid/{{firstProductId}}",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {
+          "req": [
+            {
+              "name": "",
+              "value": "",
+              "enabled": true,
+              "local": false
+            }
+          ]
+        },
+        "assertions": [
+          {
+            "name": "res.status",
+            "value": "eq 200",
+            "enabled": true,
+            "uid": "bRYzyW703Tljtj6qTVhJe"
+          }
+        ],
+        "tests": "test(\"Response time is less than 200ms\", function () {\r\n    expect(res.getResponseTime()).to.be.below(200);\r\n});\r\n\r\n",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "FindAllProductInfo",
+      "seq": 4,
+      "request": {
+        "url": "{{productURL}}/findAll",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {
+          "res": [
+            {
+              "name": "firstProductId",
+              "value": "res.body[0].pid",
+              "enabled": true,
+              "local": false
+            }
+          ]
+        },
+        "assertions": [
+          {
+            "name": "res.status",
+            "value": "eq 200",
+            "enabled": true,
+            "uid": "FTsNv8RwWUgtcrlw2XHyZ"
+          },
+          {
+            "name": "res.body[0].pid",
+            "value": "eq 5",
+            "enabled": true,
+            "uid": "nToadxjfLlQFZWzJSvvEW"
+          }
+        ],
+        "tests": "test(\"Status code is 200\", function () {\n    expect(res.getStatus()).to.equal(200);\n});\n\ntest(\"The product name is Thing\", function () {\n    expect(res.getBody()[0].pname).to.eql(\"Thing\");\n});\n\n",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "StoreProduct",
+      "seq": 1,
+      "request": {
+        "url": "{{productURL}}/store",
+        "method": "POST",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json",
+            "enabled": true
+          }
+        ],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\r\n    \"pid\" : 5,\r\n    \"pname\" : \"Thing\",\r\n    \"price\" : 3000,\r\n    \"qty\" : 14\r\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [
+          {
+            "name": "res.status",
+            "value": "eq 200",
+            "enabled": true,
+            "uid": "DvzfW05sm9e9xQELHJV7r"
+          }
+        ],
+        "tests": "test(\"Product stored successfully\", function () {\r\n    expect(res.getBody()?.toString()).to.include(\"Product stored successfully\");\r\n});",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "ViewOrders",
+      "seq": 7,
+      "request": {
+        "url": "{{ordersURL}}/vieworder",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [
+          {
+            "name": "res.status",
+            "value": "eq 200",
+            "enabled": true,
+            "uid": "yURhlcgNOGOBVbR6a8M31"
+          }
+        ],
+        "tests": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "PlaceOrder",
+      "seq": 6,
+      "request": {
+        "url": "{{ordersURL}}/placeorder",
+        "method": "POST",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json",
+            "enabled": true
+          }
+        ],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\r\n    \"pid\" : 5,\r\n    \"qty\" : 4\r\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [
+          {
+            "name": "res.status",
+            "value": "eq 200",
+            "enabled": true,
+            "uid": "nTuauRZiqrLqmpb086k1E"
+          },
+          {
+            "name": "res.body",
+            "value": "eq Order placed succesfully",
+            "enabled": true,
+            "uid": "OlJcuE4sN6UYE7Bc4YiMi"
+          }
+        ],
+        "tests": "test(\"Successful POST request\", function () {\r\n    expect(res.getStatus()).to.be.oneOf([200, 201]);\r\n});",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "UpdateProductPrice",
+      "seq": 2,
+      "request": {
+        "url": "{{productURL}}/updateprice",
+        "method": "PATCH",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json",
+            "enabled": true
+          }
+        ],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\r\n    \"pid\" : 5, \r\n    \"price\" : 99000\r\n    \r\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {
+          "req": [
+            {
+              "name": "",
+              "value": "",
+              "enabled": true,
+              "local": false
+            }
+          ]
+        },
+        "assertions": [
+          {
+            "name": "res.body",
+            "value": "eq Product price updated successfully",
+            "enabled": true,
+            "uid": "EHBvtjZfz7IN6JEAGV0ae"
+          }
+        ],
+        "tests": "test(\"Status code is 200\", function () {\r\n    expect(res.getStatus()).to.equal(200);\r\n});",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "UpdateProductQty",
+      "seq": 3,
+      "request": {
+        "url": "{{productURL}}/updateqty",
+        "method": "PATCH",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json",
+            "enabled": true
+          }
+        ],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\r\n    \"pid\" : 5, \r\n    \"qty\" : 14\r\n    \r\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [
+          {
+            "name": "res.status",
+            "value": "eq 200",
+            "enabled": true,
+            "uid": "tf2dezyRRFzQd6JWqxO8T"
+          },
+          {
+            "name": "res.body",
+            "value": "eq Product qty updated successfully",
+            "enabled": true,
+            "uid": "R6PqbdzmLtq7CLiIG9rdf"
+          }
+        ],
+        "tests": "test(\"Product qty updated successfully\", function () {\r\n    expect(res.getBody()?.toString()).to.include(\"Product qty updated successfully\");\r\n});\r\n\r\ntest(\"Status code is 200\", function () {\r\n    expect(res.getStatus()).to.equal(200);\r\n});",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "DeleteProduct",
+      "seq": 8,
+      "request": {
+        "url": "{{productURL}}/delete/5",
+        "method": "DELETE",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [
+          {
+            "name": "res.status",
+            "value": "eq 200",
+            "enabled": true,
+            "uid": "lVkl3T72zYVeqfVTAZmbf"
+          }
+        ],
+        "tests": "test(\"Status code is 200\", function () {\r\n    expect(res.getStatus()).to.equal(200);\r\n});\r\n\r\ntest(\"Product deleted successfully\", function () {\r\n    expect(res.getBody()?.toString()).to.include(\"Product deleted successfully\");\r\n});",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    }
+  ],
+  "activeEnvironmentUid": "IhWwUwoJjd4q6TokxJH8p",
+  "environments": [
+    {
+      "variables": [
+        {
+          "name": "productURL",
+          "value": "http://spring-boot-service:9090/product",
+          "enabled": true,
+          "secret": false,
+          "type": "text"
+        },
+        {
+          "name": "ordersURL",
+          "value": "http://spring-boot-service:9090/orders",
+          "enabled": true,
+          "secret": false,
+          "type": "text"
+        }
+      ],
+      "name": "Docker_Env"
+    },
+    {
+      "variables": [
+        {
+          "name": "productURL",
+          "value": "http://localhost:9011/product",
+          "enabled": true,
+          "secret": false,
+          "type": "text"
+        },
+        {
+          "name": "ordersURL",
+          "value": "http://localhost:9011/orders",
+          "enabled": true,
+          "secret": false,
+          "type": "text"
+        }
+      ],
+      "name": "Docker_Env_New"
+    }
+  ],
+  "brunoConfig": {
+    "version": "1",
+    "name": "ProductRestAPI_for_Docker",
+    "type": "collection",
+    "ignore": [
+      "node_modules",
+      ".git"
+    ],
+    "presets": {
+      "requestType": "http",
+      "requestUrl": "http://localhost:8080/product"
+    }
+  }
+}

@@ -19,3 +19,14 @@ services:
       - mysql-service
     restart: always
 
+  bruno-service:
+    build: 
+      context: .
+      dockerfile: Dockerfile-Bruno
+    container_name: bruno_container
+    depends_on:
+      - spring-boot-service
+    volumes:
+      - ./Import:/app/ProductRestAPI_for_Docker/results
+    restart: always
+

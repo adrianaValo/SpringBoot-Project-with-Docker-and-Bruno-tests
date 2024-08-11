@@ -1,0 +1,23 @@
+# Use a base image with Node.js
+FROM node:18
+
+# Set the working directory in the container
+WORKDIR /app/ProductRestAPI_for_Docker
+
+# Install Bruno CLI globally using npm
+RUN npm install -g @usebruno/cli
+
+# Copy the entire collection directory into the container
+COPY ./ProductRestAPI_for_Docker /app/ProductRestAPI_for_Docker
+
+# Ensure /usr/local/bin is in PATH
+ENV PATH /usr/local/bin:$PATH
+
+# Optionally add alias for `bruno`
+RUN ln -s /usr/local/bin/bru /usr/local/bin/bruno
+
+# Declare a volume
+# VOLUME /app/ProductRestAPI_for_Docker/results
+
+# Define the command to run Bruno CLI from the collection's root directory
+CMD ["bruno", "run", "--env", "Docker_Env", "--output", "results/results.html", "--format", "html"]
